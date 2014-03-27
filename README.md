@@ -1,4 +1,4 @@
 trial1
 ======
 
-juest a trial
+just a trial
