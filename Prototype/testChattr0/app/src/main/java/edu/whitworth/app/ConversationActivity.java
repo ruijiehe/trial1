@@ -1,6 +1,9 @@
 package edu.whitworth.app;
 
+import android.app.ListActivity;
 import android.content.Intent;
+import android.database.DataSetObserver;
+import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -13,65 +16,36 @@ import android.view.ViewGroup;
 import android.os.Build;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ConversationActivity extends ActionBarActivity {
+import java.util.List;
+
+public class ConversationActivity extends ListActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_conversation);
+        setListAdapter(ArrayAdapter.createFromResource(getApplicationContext(), R.array.tut_titles, R.layout.list_item));
 
-        // get listview object
-        final ListView listView = (ListView) findViewById(R.id.conversation_list);
+        final String[] links = getResources().getStringArray(R.array.tut_links);
 
-        // get the array of values to put into the list
-        final String[] values = new String[]{
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                "Donec ut sem tortor",
-                "Nam molestie erat sit amet mauris iaculis commodo ut in neque",
-                "Curabitur id sollicitudin purus, nec pellentesque justo",
-                "Fusce vulputate metus nisl, sollicitudin eleifend nisl placerat et",
-                "Nunc tempus arcu turpis, vitae eleifend purus dictum vel",
-                "Duis sodales eu leo auctor egestas",
-                "Duis placerat id nibh et bibendum",
-                "Etiam feugiat lorem nisi, id tempus felis auctor quis",
-                "Vestibulum tincidunt ac nisl gravida iaculis",
-                "Nulla ultrices est sit amet nisl mattis",
-                "Quisque nec ipsum vitae risus feugiat accumsan"
-        };
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.activity_list_item, android.R.id.list, values);
-
-
-        // Something's wrong here
-        /*listView.setAdapter(adapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                int itemPosition = i;
-
-                String itemValue = (String) listView.getItemAtPosition(i);
-
-                Toast.makeText(getApplicationContext(),
-                        "Position: "+itemPosition+" ListItem: " + itemValue, Toast.LENGTH_LONG).show();
+                String content = links[i];
+                Intent showContent = new Intent(getApplicationContext(),
+                        MainActivity.class); // this is where we go to the CHAT activity
+                showContent.setData(Uri.parse(content));
+                startActivity(showContent);
             }
         });
-        */
-        Intent intent = getIntent();
-        String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
 
-        //TextView textView = new TextView(this);
-        //textView.setTextSize(40);
-        //textView.setText(message);
-
-        //setContentView(textView);
     }
 
+    // The functions below I am not using yet!
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
