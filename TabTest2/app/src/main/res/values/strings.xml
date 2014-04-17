@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Chattr</string>
+    <string name="title_section1">Conversation</string>
+    <string name="title_section2">Contacts</string>
+    <string name="title_section3">Settings</string>
+    <string name="action_settings">Settings</string>
+
+    <string-array name="my_list">
+        <item>            thing1</item>
+        <item>            thing2</item>
+        <item>            thing3</item>
+    </string-array>
+    <string-array name="conversation_list">
+        <item>            Conversation with Ruijie He</item>
+        <item>            Conversation with Mom</item>
+        <item>            Conversation with Beck Taylor</item>
+    </string-array>
+    <string-array name="contacts_list">
+        <item>            Ruijie He</item>
+        <item>            Mom</item>
+        <item>            Beck Taylor</item>
+    </string-array>
+
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="splash_desc">Splash page image</string>
+
+    <color name="splash_background">#000000</color>
+
+    <string name="title_activity_chat">ChatActivity</string>
+
+</resources>
