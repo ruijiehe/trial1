@@ -1,5 +1,6 @@
 package com.example.app;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
+import android.widget.TextView;
 
 public class ChatActivity extends ActionBarActivity {
 
@@ -58,6 +60,12 @@ public class ChatActivity extends ActionBarActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_chat, container, false);
+
+            this.getActivity().setContentView(R.layout.fragment_chat);
+            Intent i = this.getActivity().getIntent();
+            int itemNumber = i.getIntExtra("item number",0);
+            TextView tv = (TextView)getActivity().findViewById(R.id.chat_box);
+            tv.setText(Integer.toString(itemNumber));
             return rootView;
         }
     }

@@ -1,24 +1,22 @@
 package com.example.app;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
 import android.content.Intent;
 import android.support.v4.app.ListFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -41,6 +39,9 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
      * The {@link ViewPager} that will host the section contents.
      */
     ViewPager mViewPager;
+
+    public int tabPosition;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +108,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
         // When the given tab is selected, switch to the corresponding page in
         // the ViewPager.
+        tabPosition = tab.getPosition();
         mViewPager.setCurrentItem(tab.getPosition());
     }
 
@@ -133,7 +135,9 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         public ListFragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position+1);
+            PlaceholderFragment pf;
+            pf = PlaceholderFragment.newInstance(position + 1);
+            return pf;
         }
 
         @Override
@@ -187,23 +191,37 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         @Override
         public void onViewCreated(View view, Bundle savedInstanceState){
             int section = getArguments().getInt(ARG_SECTION_NUMBER);
-            int listID = R.array.my_list, layoutID = R.layout.list_layout;
 
+            List<String> lines = new ArrayList<String>();
+            switch(section){
+                case 1: lines = Arrays.asList(getResources().getStringArray(R.array.conversation_list));
+                    setListAdapter(new ArrayAdapter<String>(this.getActivity(), R.layout.list_layout, lines));
+                    break;
+                case 2: lines = Arrays.asList(getResources().getStringArray(R.array.contacts_list));
+                    setListAdapter(new ArrayAdapter<String>(this.getActivity(), R.layout.list_layout, lines));
+                    break;
+                case 3: lines = Arrays.asList(getResources().getStringArray(R.array.my_list));
+                    setListAdapter(new ArrayAdapter<String>(this.getActivity(), R.layout.list_item, lines));
+                    break;
+            }
+            //setListAdapter(new ArrayAdapter<String>(this.getActivity(), R.layout.list_item, lines));
             /*ArrayList<String> items = new ArrayList<String>();
             for (int i=0; i<10; i++)
                 items.add(Integer.toString(section));*/
             //setListAdapter(new ArrayAdapter<String>(this.getActivity(), R.layout.list_item, items));
 
             // Set the list to show
+            /*
             switch (section){
                 case 1: listID = R.array.conversation_list; layoutID = R.layout.conversation_layout; break;
                 case 2: listID = R.array.contacts_list; layoutID = R.layout.contacts_layout; break;
-                case 3: listID = R.array.my_list; layoutID = R.layout.list_layout; break;
-                default: listID = R.array.my_list; layoutID = R.layout.list_layout; break;
-            }
-            setListAdapter(ArrayAdapter.createFromResource(getActivity().getApplicationContext(), R.array.my_list, R.layout.list_item));
+                case 3: listID = R.array.my_list; layoutID = R.layout.contacts_layout; break;
+                default: listID = R.array.my_list; layoutID = R.layout.contacts_layout; break;
+            }*/
+            //setListAdapter(ArrayAdapter.createFromResource(getActivity().getApplicationContext(), R.array.my_list, R.layout.list_item));
             //setListAdapter(ArrayAdapter.createFromResource(getActivity().getApplicationContext(), listID, layoutID));
             // THE SET LIST ADAPTER DOESN'T WORK HOW I EXPECT
+
 
             ListView lv = getListView();
             lv.setTextFilterEnabled(true);
@@ -212,9 +230,10 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     Toast.makeText(view.getContext(), ((TextView) view).getText(), Toast.LENGTH_SHORT).show();
-                    // STARTING ACTIVITIES WON'T WORK IN STATIC CONTEXT
-                    //Intent intent = new Intent(MainActivity.this, ChatActivity.class);
-                    //startActivity(intent);
+                    // Start the activity, send data over
+                    Intent intent = new Intent().setClass(getActivity(), ChatActivity.class);
+                    intent.putExtra("item number", i);
+                    startActivity(intent);
                 }
             });
         }
