@@ -16,5 +16,10 @@
         android:layout_height="wrap_content"
         tools:layout="@layout/list_layout"/>
 
+    <TextView
+        android:id="@+id/compose_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
 </LinearLayout>
-<!-- From: file:/C:/Users/ahannon14/Desktop/Tabs/TabTest2/app/src/main/res/layout/fragment_main.xml -->
+<!-- From: file:/Q:/CS396/Final/TabTest2/app/src/main/res/layout/fragment_main.xml -->

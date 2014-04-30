@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- From: file:/C:/Users/ahannon14/Desktop/Tabs/TabTest2/app/build/exploded-bundles/ComAndroidSupportAppcompatV71900.aar/res/values-v14/values.xml -->
+    <!-- From: file:/Q:/CS396/Final/TabTest2/app/build/exploded-bundles/ComAndroidSupportAppcompatV71900.aar/res/values-v14/values.xml -->
     <eat-comment />
 
     <style name="TextAppearance.AppCompat.Base.SearchResult.Subtitle" parent="@android:TextAppearance.Holo.SearchResult.Subtitle" />

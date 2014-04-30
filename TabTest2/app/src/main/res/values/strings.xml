@@ -3,8 +3,8 @@
 
     <string name="app_name">Chattr</string>
     <string name="title_section1">Conversation</string>
-    <string name="title_section2">Contacts</string>
-    <string name="title_section3">Settings</string>
+    <string name="title_section2">Compose</string>
+    <string name="title_section3">Contacts</string>
     <string name="action_settings">Settings</string>
 
     <string-array name="my_list">

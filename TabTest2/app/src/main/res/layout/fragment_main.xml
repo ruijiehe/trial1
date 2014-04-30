@@ -16,4 +16,9 @@
         android:layout_height="wrap_content"
         tools:layout="@layout/list_layout"/>
 
+    <TextView
+        android:id="@+id/compose_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
 </LinearLayout>

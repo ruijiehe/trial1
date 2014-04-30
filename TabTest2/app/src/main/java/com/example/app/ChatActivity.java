@@ -13,6 +13,9 @@ import android.view.ViewGroup;
 import android.os.Build;
 import android.widget.TextView;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class ChatActivity extends ActionBarActivity {
 
     @Override
@@ -63,9 +66,20 @@ public class ChatActivity extends ActionBarActivity {
 
             this.getActivity().setContentView(R.layout.fragment_chat);
             Intent i = this.getActivity().getIntent();
+
             int itemNumber = i.getIntExtra("item number",0);
+            int tabPos = i.getIntExtra("tab position", 0);
+
             TextView tv = (TextView)getActivity().findViewById(R.id.chat_box);
-            tv.setText(Integer.toString(itemNumber));
+            String[] c = getResources().getStringArray(R.array.contacts_list);
+            if(tabPos == 0){
+
+                tv.setText(String.format("Conversation with %s", c[itemNumber]));
+            }
+            else if(tabPos == 2){
+                tv.setText(String.format("Contact:  %s", c[itemNumber]));
+            }
+
             return rootView;
         }
     }
