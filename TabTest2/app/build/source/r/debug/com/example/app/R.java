@@ -872,13 +872,14 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f080015;
         public static final int action_menu_presenter=0x7f080016;
         public static final int action_mode_close_button=0x7f080024;
-        public static final int action_settings=0x7f080042;
+        public static final int action_settings=0x7f080043;
         public static final int activity_chooser_view_content=0x7f080025;
         public static final int always=0x7f08000f;
         public static final int beginning=0x7f08000a;
         public static final int chat_box=0x7f08003f;
         public static final int checkbox=0x7f08002d;
         public static final int collapseActionView=0x7f080011;
+        public static final int compose_message=0x7f080042;
         public static final int container=0x7f08003c;
         public static final int default_activity_button=0x7f080028;
         public static final int dialog=0x7f080012;

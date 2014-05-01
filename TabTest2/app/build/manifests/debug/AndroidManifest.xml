@@ -1,4 +1,4 @@
-<!-- From: file:/C:/Users/ahannon14/Desktop/Tabs/TabTest2/app/src/main/AndroidManifest.xml --><manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.example.app">
+<!-- From: file:/Q:/CS396/Final/TabTest2/app/src/main/AndroidManifest.xml --><manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.example.app">
     <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="19"/>
 
     <application android:allowBackup="true" android:icon="@drawable/ic_launcher" android:label="@string/app_name" android:theme="@style/AppTheme">

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Locale;
 
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -19,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,7 +42,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
      */
     ViewPager mViewPager;
 
-    public int tabPosition;
+    public static int tabPosition;
 
 
     @Override
@@ -162,6 +164,35 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     }
 
     /**
+     * A fragment to hold a non-list tab
+     */
+    public static class ComposeFragment extends Fragment {
+        /**
+         * The fragment argument representing the section number for this
+         * fragment.
+         */
+        private static final String ARG_SECTION_NUMBER = "section_number";
+
+        /**
+         * Returns a new instance of this fragment for the given section
+         * number.
+         * Feed the information (sectionNumber) that you need here
+         */
+        public static ComposeFragment newInstance(int sectionNumber) {
+            ComposeFragment fragment = new ComposeFragment();
+
+            Bundle args = new Bundle();
+            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        public ComposeFragment() {
+        }
+
+    }
+
+    /**
      * A placeholder fragment containing a simple view.  Changed to ListFragment
      */
     public static class PlaceholderFragment extends ListFragment {
@@ -197,31 +228,13 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                 case 1: lines = Arrays.asList(getResources().getStringArray(R.array.conversation_list));
                     setListAdapter(new ArrayAdapter<String>(this.getActivity(), R.layout.list_layout, lines));
                     break;
-                case 2: lines = Arrays.asList(getResources().getStringArray(R.array.contacts_list));
+                case 2: //lines = Arrays.asList(getResources().getStringArray(R.array.my_list));
+                    //setListAdapter(new ArrayAdapter<String>(this.getActivity(), R.layout.list_item, lines));
+                    break;
+                case 3: lines = Arrays.asList(getResources().getStringArray(R.array.contacts_list));
                     setListAdapter(new ArrayAdapter<String>(this.getActivity(), R.layout.list_layout, lines));
                     break;
-                case 3: lines = Arrays.asList(getResources().getStringArray(R.array.my_list));
-                    setListAdapter(new ArrayAdapter<String>(this.getActivity(), R.layout.list_item, lines));
-                    break;
             }
-            //setListAdapter(new ArrayAdapter<String>(this.getActivity(), R.layout.list_item, lines));
-            /*ArrayList<String> items = new ArrayList<String>();
-            for (int i=0; i<10; i++)
-                items.add(Integer.toString(section));*/
-            //setListAdapter(new ArrayAdapter<String>(this.getActivity(), R.layout.list_item, items));
-
-            // Set the list to show
-            /*
-            switch (section){
-                case 1: listID = R.array.conversation_list; layoutID = R.layout.conversation_layout; break;
-                case 2: listID = R.array.contacts_list; layoutID = R.layout.contacts_layout; break;
-                case 3: listID = R.array.my_list; layoutID = R.layout.contacts_layout; break;
-                default: listID = R.array.my_list; layoutID = R.layout.contacts_layout; break;
-            }*/
-            //setListAdapter(ArrayAdapter.createFromResource(getActivity().getApplicationContext(), R.array.my_list, R.layout.list_item));
-            //setListAdapter(ArrayAdapter.createFromResource(getActivity().getApplicationContext(), listID, layoutID));
-            // THE SET LIST ADAPTER DOESN'T WORK HOW I EXPECT
-
 
             ListView lv = getListView();
             lv.setTextFilterEnabled(true);
@@ -233,70 +246,13 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                     // Start the activity, send data over
                     Intent intent = new Intent().setClass(getActivity(), ChatActivity.class);
                     intent.putExtra("item number", i);
+                    intent.putExtra("tab position", tabPosition);
                     startActivity(intent);
                 }
             });
+
         }
 
-        //@Override
-        /**
-         * Build a fragment/view based on the number you have been given (sectionNumber)
-         */
-        /*public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            int section = getArguments().getInt(ARG_SECTION_NUMBER);
-            //getActivity().setContentView(R.layout.fragment_main);
-            //setListAdapter(new ArrayAdapter<String>(this.getActivity(), R.layout.list_item, R.array.my_list));
-            //ListView lv = getListView(); // Crashes here
-            //lv.setTextFilterEnabled(true);
-
-
-            // This works
-            /*switch (section){
-                case 1:
-                    textView.setText("conversations!");
-                    break;
-                case 2:
-                    textView.setText("contacts!");
-                    break;
-                case 3:
-                    textView.setText("settings or something!");
-                    break;
-                default:
-                    textView.setText("This is a problem!");
-                    break;
-            }*/
-/*
-            textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
-            //ListView lv = (ListView) rootView.findViewById(R.id.section_label);
-
-            //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.list_item,
-                   // R.array.my_list);
-            //lv.setAdapter(adapter);
-            return rootView;
-        }*/
-        // ADDED
-        /*
-        @Override
-        public void onViewCreated (View view, Bundle savedInstanceState) {
-            ArrayList<String> items = new ArrayList<String>();
-            for (int i=0; i<10; i++)
-                items.add("my string");
-            setListAdapter(new ArrayAdapter<String>(this.getActivity(), R.layout.list_item, items));
-
-            ListView lv = getListView();
-            lv.setTextFilterEnabled(true);
-
-            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
-                    Toast.makeText(view.getContext(), ((TextView) view).getText(),
-                            Toast.LENGTH_SHORT).show();
-                }
-            });
-        }*/
     }
 
 }
