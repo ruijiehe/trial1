@@ -2,13 +2,13 @@
 <merger>
 
     <dataSet config="ComAndroidSupportAppcompatV71900.aar" >
-        <source path="Q:\CS396\Final\TabTest2\app\build\exploded-bundles\ComAndroidSupportAppcompatV71900.aar\assets" />
+        <source path="C:\Users\ahannon14\Desktop\TabTest2\app\build\exploded-bundles\ComAndroidSupportAppcompatV71900.aar\assets" />
     </dataSet>
     <dataSet config="main" >
-        <source path="Q:\CS396\Final\TabTest2\app\src\main\assets" />
+        <source path="C:\Users\ahannon14\Desktop\TabTest2\app\src\main\assets" />
     </dataSet>
     <dataSet config="debug" >
-        <source path="Q:\CS396\Final\TabTest2\app\src\debug\assets" />
+        <source path="C:\Users\ahannon14\Desktop\TabTest2\app\src\debug\assets" />
     </dataSet>
 
 </merger>

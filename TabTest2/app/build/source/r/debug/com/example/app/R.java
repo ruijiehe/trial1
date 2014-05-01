@@ -872,14 +872,14 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f080015;
         public static final int action_menu_presenter=0x7f080016;
         public static final int action_mode_close_button=0x7f080024;
-        public static final int action_settings=0x7f080043;
+        public static final int action_settings=0x7f080042;
         public static final int activity_chooser_view_content=0x7f080025;
         public static final int always=0x7f08000f;
         public static final int beginning=0x7f08000a;
         public static final int chat_box=0x7f08003f;
         public static final int checkbox=0x7f08002d;
         public static final int collapseActionView=0x7f080011;
-        public static final int compose_message=0x7f080042;
+        public static final int contact=0x7f080040;
         public static final int container=0x7f08003c;
         public static final int default_activity_button=0x7f080028;
         public static final int dialog=0x7f080012;
@@ -895,7 +895,6 @@ containing a value of this type.
         public static final int ifRoom=0x7f08000e;
         public static final int image=0x7f080027;
         public static final int listMode=0x7f080001;
-        public static final int list_frag=0x7f080041;
         public static final int list_item=0x7f080029;
         public static final int middle=0x7f08000b;
         public static final int never=0x7f08000d;
@@ -920,7 +919,7 @@ containing a value of this type.
         public static final int showCustom=0x7f080007;
         public static final int showHome=0x7f080004;
         public static final int showTitle=0x7f080006;
-        public static final int splash_image=0x7f080040;
+        public static final int splash_image=0x7f080041;
         public static final int split_action_bar=0x7f08001e;
         public static final int submit_area=0x7f080039;
         public static final int tabMode=0x7f080002;
@@ -958,21 +957,25 @@ containing a value of this type.
         public static final int abc_search_dropdown_item_icons_2line=0x7f030015;
         public static final int abc_search_view=0x7f030016;
         public static final int activity_chat=0x7f030017;
-        public static final int activity_login=0x7f030018;
-        public static final int activity_main=0x7f030019;
-        public static final int contacts_layout=0x7f03001a;
-        public static final int conversation_layout=0x7f03001b;
-        public static final int fragment_chat=0x7f03001c;
-        public static final int fragment_login=0x7f03001d;
-        public static final int fragment_main=0x7f03001e;
-        public static final int list_item=0x7f03001f;
-        public static final int list_layout=0x7f030020;
-        public static final int support_simple_spinner_dropdown_item=0x7f030021;
+        public static final int activity_contact=0x7f030018;
+        public static final int activity_login=0x7f030019;
+        public static final int activity_main=0x7f03001a;
+        public static final int compose_msg=0x7f03001b;
+        public static final int contacts_layout=0x7f03001c;
+        public static final int conversation_layout=0x7f03001d;
+        public static final int fragment_chat=0x7f03001e;
+        public static final int fragment_contact=0x7f03001f;
+        public static final int fragment_login=0x7f030020;
+        public static final int fragment_main=0x7f030021;
+        public static final int list_item=0x7f030022;
+        public static final int list_layout=0x7f030023;
+        public static final int support_simple_spinner_dropdown_item=0x7f030024;
     }
     public static final class menu {
         public static final int chat=0x7f0d0000;
-        public static final int login=0x7f0d0001;
-        public static final int main=0x7f0d0002;
+        public static final int contact=0x7f0d0001;
+        public static final int login=0x7f0d0002;
+        public static final int main=0x7f0d0003;
     }
     public static final class string {
         public static final int abc_action_bar_home_description=0x7f0b0000;
@@ -990,13 +993,16 @@ containing a value of this type.
         public static final int abc_shareactionprovider_share_with_application=0x7f0b000c;
         public static final int action_settings=0x7f0b000d;
         public static final int app_name=0x7f0b000e;
-        public static final int hello_world=0x7f0b000f;
-        public static final int splash_desc=0x7f0b0010;
-        public static final int title_activity_chat=0x7f0b0011;
-        public static final int title_activity_login=0x7f0b0012;
-        public static final int title_section1=0x7f0b0013;
-        public static final int title_section2=0x7f0b0014;
-        public static final int title_section3=0x7f0b0015;
+        public static final int compose_msg=0x7f0b000f;
+        public static final int contact_data=0x7f0b0010;
+        public static final int hello_world=0x7f0b0011;
+        public static final int splash_desc=0x7f0b0012;
+        public static final int title_activity_chat=0x7f0b0013;
+        public static final int title_activity_contact=0x7f0b0014;
+        public static final int title_activity_login=0x7f0b0015;
+        public static final int title_section1=0x7f0b0016;
+        public static final int title_section2=0x7f0b0017;
+        public static final int title_section3=0x7f0b0018;
     }
     public static final class style {
         /**  Customize your theme here. 

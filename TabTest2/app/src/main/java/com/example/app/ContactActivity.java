@@ -11,35 +11,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
-import android.os.Handler;
+import android.widget.TextView;
 
+public class ContactActivity extends ActionBarActivity {
 
-public class LoginActivity extends ActionBarActivity {
-
-    private static int SPLASH_TIME_OUT = 500;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-
-        new Handler().postDelayed(new Runnable() {
-
-            /*
-             * Showing splash screen with a timer. This will be useful when you
-             * want to show case your app logo / company
-             */
-
-            @Override
-            public void run() {
-                // This method will be executed once the timer is over
-                // Start your app main activity
-                Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(i);
-
-                // close this activity
-                finish();
-            }
-        }, SPLASH_TIME_OUT);
+        setContentView(R.layout.activity_contact);
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
@@ -48,11 +27,12 @@ public class LoginActivity extends ActionBarActivity {
         }
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.login, menu);
+        getMenuInflater().inflate(R.menu.contact, menu);
         return true;
     }
 
@@ -79,7 +59,16 @@ public class LoginActivity extends ActionBarActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_login, container, false);
+            View rootView = inflater.inflate(R.layout.fragment_contact, container, false);
+
+            this.getActivity().setContentView(R.layout.fragment_contact);
+            Intent i = this.getActivity().getIntent();
+
+            int itemNumber = i.getIntExtra("contact item number",0);
+
+            TextView tv = (TextView)getActivity().findViewById(R.id.contact);
+            String[] c = getResources().getStringArray(R.array.contacts_list);
+            tv.setText(String.format("Conversation with %s", c[itemNumber]));
             return rootView;
         }
     }
