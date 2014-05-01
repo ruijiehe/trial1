@@ -67,19 +67,11 @@ public class ChatActivity extends ActionBarActivity {
             this.getActivity().setContentView(R.layout.fragment_chat);
             Intent i = this.getActivity().getIntent();
 
-            int itemNumber = i.getIntExtra("item number",0);
-            int tabPos = i.getIntExtra("tab position", 0);
+            int itemNumber = i.getIntExtra("chat item number",0);
 
             TextView tv = (TextView)getActivity().findViewById(R.id.chat_box);
             String[] c = getResources().getStringArray(R.array.contacts_list);
-            if(tabPos == 0){
-
-                tv.setText(String.format("Conversation with %s", c[itemNumber]));
-            }
-            else if(tabPos == 2){
-                tv.setText(String.format("Contact:  %s", c[itemNumber]));
-            }
-
+            tv.setText(String.format("Conversation with %s", c[itemNumber]));
             return rootView;
         }
     }

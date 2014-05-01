@@ -15,9 +15,11 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
@@ -133,13 +135,18 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         }
 
         // CHANGED HERE to ListFragment (instead of Fragment)
+        // Changed again to Fragment (somehow, now it works?!)
         @Override
-        public ListFragment getItem(int position) {
+        public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            PlaceholderFragment pf;
-            pf = PlaceholderFragment.newInstance(position + 1);
-            return pf;
+            if(position == 0 || position == 2){
+                PlaceholderFragment pf = PlaceholderFragment.newInstance(position + 1);
+                return pf;
+            }
+            else return ComposeFragment.newInstance(position + 1);
+
+            //return pf;
         }
 
         @Override
@@ -164,7 +171,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     }
 
     /**
-     * A fragment to hold a non-list tab
+     * A fragment to hold a non-list tab:  the compose new message tab!
      */
     public static class ComposeFragment extends Fragment {
         /**
@@ -188,6 +195,14 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         }
 
         public ComposeFragment() {
+        }
+
+        // Here, the fragment is set to the compose_msg layout
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.compose_msg, container, false);
+            return rootView;
         }
 
     }
@@ -244,10 +259,18 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     Toast.makeText(view.getContext(), ((TextView) view).getText(), Toast.LENGTH_SHORT).show();
                     // Start the activity, send data over
-                    Intent intent = new Intent().setClass(getActivity(), ChatActivity.class);
-                    intent.putExtra("item number", i);
-                    intent.putExtra("tab position", tabPosition);
-                    startActivity(intent);
+                    // If tabPosition = 0, then send it to chat activity
+                    // If tabPosition = 2, then send it to the contact view activity (1 should never be hit)
+                    if(tabPosition == 0){
+                        Intent intentChat = new Intent().setClass(getActivity(), ChatActivity.class);
+                        intentChat.putExtra("chat item number", i);
+                        startActivity(intentChat);
+                    }
+                    else if (tabPosition == 2){
+                        Intent intentContact = new Intent().setClass(getActivity(), ContactActivity.class);
+                        intentContact.putExtra("contact item number", i);
+                        startActivity(intentContact);
+                    }
                 }
             });
 
