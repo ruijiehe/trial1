@@ -19,7 +19,8 @@ public final class R {
     public static final class array {
         public static final int contacts_list=0x7f050000;
         public static final int conversation_list=0x7f050001;
-        public static final int my_list=0x7f050002;
+        public static final int dummy_convo=0x7f050002;
+        public static final int my_list=0x7f050003;
     }
     public static final class attr {
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
@@ -742,11 +743,12 @@ containing a value of this type.
         public static final int abc_split_action_bar_is_narrow=0x7f060005;
     }
     public static final class color {
-        public static final int abc_search_url_text_holo=0x7f070004;
+        public static final int abc_search_url_text_holo=0x7f070005;
         public static final int abc_search_url_text_normal=0x7f070000;
         public static final int abc_search_url_text_pressed=0x7f070001;
         public static final int abc_search_url_text_selected=0x7f070002;
         public static final int splash_background=0x7f070003;
+        public static final int white=0x7f070004;
     }
     public static final class dimen {
         public static final int abc_action_bar_default_height=0x7f090000;
@@ -857,8 +859,13 @@ containing a value of this type.
         public static final int abc_textfield_searchview_holo_light=0x7f020054;
         public static final int abc_textfield_searchview_right_holo_dark=0x7f020055;
         public static final int abc_textfield_searchview_right_holo_light=0x7f020056;
-        public static final int chattrsplash=0x7f020057;
-        public static final int ic_launcher=0x7f020058;
+        public static final int chat_bubble_right=0x7f020057;
+        public static final int chat_bubble_right_9patch=0x7f020058;
+        public static final int chattrsplash=0x7f020059;
+        public static final int compose_reply_bckgrnd=0x7f02005a;
+        public static final int down_arrow_better=0x7f02005b;
+        public static final int ic_launcher=0x7f02005c;
+        public static final int stock_photo=0x7f02005d;
     }
     public static final class id {
         public static final int action_bar=0x7f08001c;
@@ -872,14 +879,18 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f080015;
         public static final int action_menu_presenter=0x7f080016;
         public static final int action_mode_close_button=0x7f080024;
-        public static final int action_settings=0x7f080042;
+        public static final int action_settings=0x7f080047;
         public static final int activity_chooser_view_content=0x7f080025;
         public static final int always=0x7f08000f;
         public static final int beginning=0x7f08000a;
-        public static final int chat_box=0x7f08003f;
+        public static final int chat_box=0x7f08003e;
         public static final int checkbox=0x7f08002d;
         public static final int collapseActionView=0x7f080011;
-        public static final int contact=0x7f080040;
+        public static final int compose_reply=0x7f08003f;
+        public static final int compose_reply_frag=0x7f080044;
+        public static final int contact=0x7f080045;
+        public static final int contact_image=0x7f080041;
+        public static final int contact_name=0x7f080043;
         public static final int container=0x7f08003c;
         public static final int default_activity_button=0x7f080028;
         public static final int dialog=0x7f080012;
@@ -901,9 +912,11 @@ containing a value of this type.
         public static final int none=0x7f080009;
         public static final int normal=0x7f080000;
         public static final int pager=0x7f08003d;
+        public static final int phone_number=0x7f080042;
         public static final int progress_circular=0x7f080018;
         public static final int progress_horizontal=0x7f080019;
         public static final int radio=0x7f08002f;
+        public static final int reply_btn=0x7f080040;
         public static final int search_badge=0x7f080032;
         public static final int search_bar=0x7f080031;
         public static final int search_button=0x7f080033;
@@ -914,12 +927,11 @@ containing a value of this type.
         public static final int search_plate=0x7f080036;
         public static final int search_src_text=0x7f080037;
         public static final int search_voice_btn=0x7f08003b;
-        public static final int secondLine=0x7f08003e;
         public static final int shortcut=0x7f08002e;
         public static final int showCustom=0x7f080007;
         public static final int showHome=0x7f080004;
         public static final int showTitle=0x7f080006;
-        public static final int splash_image=0x7f080041;
+        public static final int splash_image=0x7f080046;
         public static final int split_action_bar=0x7f08001e;
         public static final int submit_area=0x7f080039;
         public static final int tabMode=0x7f080002;
@@ -960,15 +972,15 @@ containing a value of this type.
         public static final int activity_contact=0x7f030018;
         public static final int activity_login=0x7f030019;
         public static final int activity_main=0x7f03001a;
-        public static final int compose_msg=0x7f03001b;
-        public static final int contacts_layout=0x7f03001c;
-        public static final int conversation_layout=0x7f03001d;
-        public static final int fragment_chat=0x7f03001e;
-        public static final int fragment_contact=0x7f03001f;
-        public static final int fragment_login=0x7f030020;
-        public static final int fragment_main=0x7f030021;
-        public static final int list_item=0x7f030022;
-        public static final int list_layout=0x7f030023;
+        public static final int chat_layout=0x7f03001b;
+        public static final int compose_msg=0x7f03001c;
+        public static final int compose_reply=0x7f03001d;
+        public static final int contacts_layout=0x7f03001e;
+        public static final int conversation_layout=0x7f03001f;
+        public static final int fragment_chat=0x7f030020;
+        public static final int fragment_contact=0x7f030021;
+        public static final int fragment_login=0x7f030022;
+        public static final int fragment_main=0x7f030023;
         public static final int support_simple_spinner_dropdown_item=0x7f030024;
     }
     public static final class menu {
@@ -996,13 +1008,14 @@ containing a value of this type.
         public static final int compose_msg=0x7f0b000f;
         public static final int contact_data=0x7f0b0010;
         public static final int hello_world=0x7f0b0011;
-        public static final int splash_desc=0x7f0b0012;
-        public static final int title_activity_chat=0x7f0b0013;
-        public static final int title_activity_contact=0x7f0b0014;
-        public static final int title_activity_login=0x7f0b0015;
-        public static final int title_section1=0x7f0b0016;
-        public static final int title_section2=0x7f0b0017;
-        public static final int title_section3=0x7f0b0018;
+        public static final int send_btn_text=0x7f0b0012;
+        public static final int splash_desc=0x7f0b0013;
+        public static final int title_activity_chat=0x7f0b0014;
+        public static final int title_activity_contact=0x7f0b0015;
+        public static final int title_activity_login=0x7f0b0016;
+        public static final int title_section1=0x7f0b0017;
+        public static final int title_section2=0x7f0b0018;
+        public static final int title_section3=0x7f0b0019;
     }
     public static final class style {
         /**  Customize your theme here. 

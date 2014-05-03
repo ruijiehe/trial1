@@ -22,6 +22,13 @@
         <item>            Mom</item>
         <item>            Beck Taylor</item>
     </string-array>
+    <string-array name="dummy_convo">
+        <item>"Hey!  What's up?"</item>
+        <item>Yo.  Nothing much.</item>
+        <item>Did you get the answer to #2?</item>
+        <item>Nope.  Gave up.</item>
+        <item>">:( You were my last hope!"</item>
+    </string-array>
 
     <string name="title_activity_login">LoginActivity</string>
     <string name="hello_world">Hello world!</string>
@@ -33,5 +40,8 @@
     <string name="compose_msg">COMPOSE A MESSAGE!</string>
     <string name="title_activity_contact">ContactActivity</string>
     <string name="contact_data">Contact person!</string>
+    <string name="send_btn_text">SEND</string>
+
+    <color name="white">#FFFFFF</color>
 
 </resources>

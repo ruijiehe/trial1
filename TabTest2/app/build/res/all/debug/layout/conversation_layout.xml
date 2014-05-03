@@ -3,5 +3,5 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:padding="100dp"
-    android:textSize="30sp" /><!-- From: file:/C:/Users/ahannon14/Desktop/TabTest2/app/src/main/res/layout/conversation_layout.xml -->
+    android:padding="30dp"
+    android:textSize="30sp" /><!-- From: file:/C:/Users/ahannon14/Desktop/5.3.2014/TabTest2/app/src/main/res/layout/conversation_layout.xml -->

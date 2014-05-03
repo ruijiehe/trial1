@@ -241,19 +241,18 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             List<String> lines = new ArrayList<String>();
             switch(section){
                 case 1: lines = Arrays.asList(getResources().getStringArray(R.array.conversation_list));
-                    setListAdapter(new ArrayAdapter<String>(this.getActivity(), R.layout.list_layout, lines));
+                    setListAdapter(new ArrayAdapter<String>(this.getActivity(), R.layout.conversation_layout, lines));
                     break;
-                case 2: //lines = Arrays.asList(getResources().getStringArray(R.array.my_list));
-                    //setListAdapter(new ArrayAdapter<String>(this.getActivity(), R.layout.list_item, lines));
+                case 2:
                     break;
                 case 3: lines = Arrays.asList(getResources().getStringArray(R.array.contacts_list));
-                    setListAdapter(new ArrayAdapter<String>(this.getActivity(), R.layout.list_layout, lines));
+                    // NOTE:  Eventually the contacts list should show:  an image, a name, and a number
+                    setListAdapter(new ArrayAdapter<String>(this.getActivity(), R.layout.conversation_layout, lines));
                     break;
             }
 
             ListView lv = getListView();
             lv.setTextFilterEnabled(true);
-
             lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
