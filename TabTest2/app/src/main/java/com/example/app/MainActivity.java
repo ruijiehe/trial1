@@ -1,10 +1,21 @@
 package com.example.app;
 
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import android.annotation.SuppressLint;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.app.Service;
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
@@ -15,6 +26,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.telephony.SmsManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,10 +34,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class MainActivity extends ActionBarActivity implements ActionBar.TabListener {
 
@@ -85,12 +110,24 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                             .setText(mSectionsPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
         }
+
+        //start a service, listen from server.
+        startService(new Intent(this, MyService.class));
+        start_recv_service();
+    }
+    public void start_recv_service()
+    {
+        AlarmManager aManager = (AlarmManager) getSystemService(Service.ALARM_SERVICE);
+        Intent intent = new Intent(MainActivity.this,MyService.class);
+        final PendingIntent pi = PendingIntent.getService(MainActivity.this, 0, intent, 0);
+        aManager.setRepeating(AlarmManager.RTC_WAKEUP, 0, 15000, pi);
+        //Toast.makeText(CallAndSms.this, "start service to recv unread", Toast.LENGTH_LONG).show();
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        
+
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
@@ -201,8 +238,132 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.compose_msg, container, false);
+            final View rootView = inflater.inflate(R.layout.compose_msg, container, false);
+            setComponent(rootView);
             return rootView;
+        }
+        private void setComponent(final View rootView) {
+            Button bt2 = (Button) rootView.findViewById(R.id.Button_send);
+
+            bt2.setOnClickListener(new View.OnClickListener() {
+                @SuppressLint("NewApi")
+                @Override
+                public void onClick(View v) {
+                    //get the message content
+                    TextView messagContentView = (TextView) rootView.findViewById(R.id.msg_text);
+                    String smsContent = messagContentView.getText().toString();
+                    //get the destination number
+                    TextView destContentView = (TextView) rootView.findViewById(R.id.msg_dest);
+                    String destNumber = destContentView.getText().toString();
+                    //get the source number
+                    TextView srcContentView = (TextView) rootView.findViewById(R.id.msg_src);
+                    String srcNumber = srcContentView.getText().toString();
+                    //send to server and save to local ContentProvider
+                    sendMsg(destNumber,smsContent,srcNumber);
+                }
+            });
+        }
+        public String addZoneCode(String dest_number,String local_num){//zone number will be set
+            if (dest_number.startsWith("+"))
+                return dest_number;
+            else
+                if (local_num.startsWith("+86"))
+                    return "+86".concat(dest_number);
+                else
+                    return "+1".concat(dest_number);
+        }
+        public static String getGMT(){
+            Date date = new Date();
+            Timestamp currentTimestamp = new Timestamp(date.getTime());
+            return currentTimestamp.toString();
+        }
+        public void saveMsg(Context contexts,String src, String dest, String text, String submit_time, String forward_time){
+            //insert the msg to ContentProvider
+            ContentResolver contentResolver = null;
+            contentResolver = contexts.getContentResolver();
+            ContentValues values = new ContentValues();
+            values.put(MSGS.MSG._FROM,src);
+            values.put(MSGS.MSG._TO,dest);
+            values.put(MSGS.MSG._TEXT,text);
+            values.put(MSGS.MSG._SENT,submit_time);
+            values.put(MSGS.MSG._RECEIVED,forward_time);
+            //here goes the insert method;
+            contentResolver.insert(MSGS.MSG.MSGS_CONTENT_URI, values);
+            //print a notification
+            Toast.makeText(this.getActivity(),"msg saved",Toast.LENGTH_LONG).show();
+
+        }
+        public void sendMsg(final String dest_num, final String text_content,final String src_num){//the dest number would be sent to DB for check
+
+            //initialize the message Structure
+            String msg_id = "2";
+            /*
+             * 1 for test on PC
+             * 2 for test on phone
+             * 0 for common user*/
+            String src = src_num;
+            String dest = addZoneCode(dest_num,src_num);
+            String text = text_content;
+            String submit_time = getGMT();
+            String forward_time = "2014 04 03 08:49:34";
+
+            //save to local ContentProvider
+            saveMsg(this.getActivity(),src,dest,text,submit_time,forward_time);
+    	/*following is sending using HttpClient*/
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost("http://1.rtest2.sinaapp.com/chat/msg/");
+            String strResult = "";
+            try {
+                // Add your data
+                List<NameValuePair> msgValuePairs = new ArrayList<NameValuePair>(2);
+                msgValuePairs.add(new BasicNameValuePair("msgid", msg_id));
+                msgValuePairs.add(new BasicNameValuePair("src", src));
+                msgValuePairs.add(new BasicNameValuePair("dest", dest));
+                msgValuePairs.add(new BasicNameValuePair("text", URLEncoder.encode(text, "UTF-8")));
+                msgValuePairs.add(new BasicNameValuePair("submit_time", submit_time));
+                msgValuePairs.add(new BasicNameValuePair("forward_time", forward_time));
+                httppost.setEntity(new UrlEncodedFormEntity(msgValuePairs));
+
+                // Execute HTTP Post Request
+                HttpResponse response = httpclient.execute(httppost);
+                strResult = EntityUtils.toString(response.getEntity());
+                //	        Toast.makeText(CallAndSms.this, "received: "+strResult, Toast.LENGTH_SHORT).show();
+            } catch (ClientProtocolException e) {
+                Toast.makeText(this.getActivity(), "failed " + e.toString(), Toast.LENGTH_SHORT).show();
+            } catch (IOException e) {
+                Toast.makeText(this.getActivity(), "failed "+e.toString(), Toast.LENGTH_SHORT).show();
+            }
+            ///////////////////////
+	    /*parsing responding json and decide whether SMS or NET*/
+            String PATH ="";
+            try {
+                JSONObject jsonPath = new JSONObject(strResult);
+                PATH = jsonPath.getString("PATH");
+//			Toast.makeText(CallAndSms.this, "PATH: "+PATH, Toast.LENGTH_SHORT).show();
+            } catch (JSONException e) {
+                Toast.makeText(this.getActivity(), "failed "+e.toString(), Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
+	    /*if SMS*/
+            try {
+                if (PATH.equals("NET")){
+                    Toast.makeText(	this.getActivity(),"Sent Via Network",Toast.LENGTH_SHORT ).show();
+
+                }
+                else {
+                    SmsManager sms = SmsManager.getDefault();
+                    List<String> texts = sms.divideMessage(text);
+                    for (String subtext : texts) {
+                        //the destination is got from text1
+                        sms.sendTextMessage(dest, null, subtext, null, null);
+                    }
+                    // note: not checked success or failure yet
+                    Toast.makeText(	this.getActivity(),"Sent Via SMS",Toast.LENGTH_SHORT ).show();
+                }
+            } catch (Exception e) {
+                Toast.makeText(this.getActivity(), "failed " + e.toString(), Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
         }
 
     }
@@ -241,13 +402,13 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             List<String> lines = new ArrayList<String>();
             switch(section){
                 case 1: lines = Arrays.asList(getResources().getStringArray(R.array.conversation_list));
-                    setListAdapter(new ArrayAdapter<String>(this.getActivity(), R.layout.list_layout, lines));
+                    setListAdapter(new ArrayAdapter<String>(this.getActivity(), R.layout.list_item, lines));
                     break;
                 case 2: //lines = Arrays.asList(getResources().getStringArray(R.array.my_list));
-                    //setListAdapter(new ArrayAdapter<String>(this.getActivity(), R.layout.list_item, lines));
+                    //setListAdapter(new ArrayAdapter<String>(this.getActivity(), R.layout.list_layout, lines));
                     break;
                 case 3: lines = Arrays.asList(getResources().getStringArray(R.array.contacts_list));
-                    setListAdapter(new ArrayAdapter<String>(this.getActivity(), R.layout.list_layout, lines));
+                    setListAdapter(new ArrayAdapter<String>(this.getActivity(), R.layout.list_item, lines));
                     break;
             }
 
