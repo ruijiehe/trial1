@@ -139,7 +139,7 @@ public class MSGProvider extends ContentProvider{
                 throw new IllegalArgumentException("Invalidate Uri:" + uri);
         }
     }
-    //return MIME type of data associated with certain uri 返回指定uri参数对应的数据的MIME类型
+    //return MIME type of data associated with certain uri s
     @Override
     public String getType(Uri uri)
     {
