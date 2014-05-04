@@ -61,14 +61,21 @@ public class ContactActivity extends ActionBarActivity {
                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_contact, container, false);
 
-            this.getActivity().setContentView(R.layout.fragment_contact);
+            // fragment_contact
+            this.getActivity().setContentView(R.layout.contacts_layout);
             Intent i = this.getActivity().getIntent();
 
             int itemNumber = i.getIntExtra("contact item number",0);
 
-            TextView tv = (TextView)getActivity().findViewById(R.id.contact);
-            String[] c = getResources().getStringArray(R.array.contacts_list);
-            tv.setText(String.format("Conversation with %s", c[itemNumber]));
+            //TextView tv = (TextView)getActivity().findViewById(R.id.contact);
+            //String[] c = getResources().getStringArray(R.array.contacts_list);
+            //tv.setText(String.format("Contact: %s", c[itemNumber]));
+
+
+            TextView tv1 = (TextView)getActivity().findViewById(R.id.contact_name);
+            String[] c1 = getResources().getStringArray(R.array.contacts_list);
+            tv1.setText(String.format("Contact: %s", c1[itemNumber]));
+
             return rootView;
         }
     }

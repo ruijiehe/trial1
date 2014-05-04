@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- From: file:/C:/Users/ahannon14/Desktop/TabTest2/app/build/exploded-bundles/ComAndroidSupportAppcompatV71900.aar/res/values-land/values.xml -->
+    <!-- From: file:/C:/Users/ahannon14/Desktop/5.3.2014/TabTest2/app/build/exploded-bundles/ComAndroidSupportAppcompatV71900.aar/res/values-land/values.xml -->
     <eat-comment />
 
     <bool name="abc_action_bar_embed_tabs_pre_jb">true</bool>

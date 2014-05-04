@@ -1,40 +1,32 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:layout_height="wrap_content"
     android:padding="6dip" >
 
     <ImageView
-        android:id="@+id/icon"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:layout_alignParentBottom="true"
+        android:id="@+id/contact_image"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_alignParentTop="true"
         android:layout_marginRight="6dip"
-        android:contentDescription="TODO"
-        android:src="@drawable/ic_launcher" />
+        android:src="@drawable/stock_photo" />
 
     <TextView
-        android:id="@+id/secondLine"
+        android:id="@+id/phone_number"
+        android:text="Description!"
         android:layout_width="fill_parent"
-        android:layout_height="26dip"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_toRightOf="@id/icon"
-        android:ellipsize="marquee"
-        android:singleLine="true"
-        android:text="Description"
-        android:textSize="12sp" />
+        android:layout_height="50dip"
+        android:layout_below="@+id/contact_name"
+        android:layout_toRightOf="@id/contact_image"
+        android:textSize="30sp" />
 
     <TextView
+        android:id="@+id/contact_name"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/secondLine"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignWithParentIfMissing="true"
-        android:layout_toRightOf="@id/icon"
+        android:layout_toRightOf="@id/contact_image"
         android:gravity="center_vertical"
         android:text="Example application"
-        android:textSize="16sp" />
+        android:textSize="50sp" />
 
-</RelativeLayout> <!-- From: file:/C:/Users/ahannon14/Desktop/TabTest2/app/src/main/res/layout/contacts_layout.xml -->
+</RelativeLayout> <!-- From: file:/C:/Users/ahannon14/Desktop/5.3.2014/TabTest2/app/src/main/res/layout/contacts_layout.xml -->
