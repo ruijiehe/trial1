@@ -78,13 +78,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Line 49
-        //setComponent();
-        // From line 50 in CallAndSms.java
-        //startService(new Intent(this, MyService.class));
-        // Line 51
-        //start_recv_service();
-
         // Set up the action bar.
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -118,6 +111,17 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                             .setText(mSectionsPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
         }
+        //start a service, listen from server.
+        startService(new Intent(this, MyService.class));
+        start_recv_service();
+    }
+    public void start_recv_service()
+    {
+        AlarmManager aManager = (AlarmManager) getSystemService(Service.ALARM_SERVICE);
+        Intent intent = new Intent(MainActivity.this,MyService.class);
+        final PendingIntent pi = PendingIntent.getService(MainActivity.this, 0, intent, 0);
+        aManager.setRepeating(AlarmManager.RTC_WAKEUP, 0, 15000, pi);
+        //Toast.makeText(CallAndSms.this, "start service to recv unread", Toast.LENGTH_LONG).show();
     }
 
     /**
@@ -386,10 +390,133 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.compose_msg, container, false);
-
+           final View rootView = inflater.inflate(R.layout.compose_msg, container, false);
+           setComponent(rootView);
 
             return rootView;
+        }
+        private void setComponent(final View rootView) {
+            Button bt2 = (Button) rootView.findViewById(R.id.Button_send);
+
+            bt2.setOnClickListener(new View.OnClickListener() {
+                @SuppressLint("NewApi")
+                @Override
+                public void onClick(View v) {
+                    //get the message content
+                    TextView messagContentView = (TextView) rootView.findViewById(R.id.msg_text);
+                    String smsContent = messagContentView.getText().toString();
+                    //get the destination number
+                    TextView destContentView = (TextView) rootView.findViewById(R.id.msg_dest);
+                    String destNumber = destContentView.getText().toString();
+                    //get the source number
+                    TextView srcContentView = (TextView) rootView.findViewById(R.id.msg_src);
+                    String srcNumber = srcContentView.getText().toString();
+                    //send to server and save to local ContentProvider
+                    sendMsg(destNumber,smsContent,srcNumber);
+                }
+            });
+        }
+        public String addZoneCode(String dest_number,String local_num){//zone number will be set
+            if (dest_number.startsWith("+"))
+                return dest_number;
+            else
+                if (local_num.startsWith("+86"))
+                    return "+86".concat(dest_number);
+                else
+                    return "+1".concat(dest_number);
+        }
+        public static String getGMT(){
+            Date date = new Date();
+            Timestamp currentTimestamp = new Timestamp(date.getTime());
+            return currentTimestamp.toString();
+        }
+        public void saveMsg(Context contexts,String src, String dest, String text, String submit_time, String forward_time){
+            //insert the msg to ContentProvider
+            ContentResolver contentResolver = null;
+            contentResolver = contexts.getContentResolver();
+            ContentValues values = new ContentValues();
+            values.put(MSGS.MSG._FROM,src);
+            values.put(MSGS.MSG._TO,dest);
+            values.put(MSGS.MSG._TEXT,text);
+            values.put(MSGS.MSG._SENT,submit_time);
+            values.put(MSGS.MSG._RECEIVED,forward_time);
+            //here goes the insert method;
+            contentResolver.insert(MSGS.MSG.MSGS_CONTENT_URI, values);
+            //print a notification
+            Toast.makeText(this.getActivity(),"msg saved",Toast.LENGTH_LONG).show();
+
+        }
+        public void sendMsg(final String dest_num, final String text_content,final String src_num){//the dest number would be sent to DB for check
+
+            //initialize the message Structure
+            String msg_id = "2";
+            /*
+             * 1 for test on PC
+             * 2 for test on phone
+             * 0 for common user*/
+            String src = src_num;
+            String dest = addZoneCode(dest_num,src_num);
+            String text = text_content;
+            String submit_time = getGMT();
+            String forward_time = "2014 04 03 08:49:34";
+
+            //save to local ContentProvider
+            saveMsg(this.getActivity(),src,dest,text,submit_time,forward_time);
+    	/*following is sending using HttpClient*/
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost("http://1.rtest2.sinaapp.com/chat/msg/");
+            String strResult = "";
+            try {
+                // Add your data
+                List<NameValuePair> msgValuePairs = new ArrayList<NameValuePair>(2);
+                msgValuePairs.add(new BasicNameValuePair("msgid", msg_id));
+                msgValuePairs.add(new BasicNameValuePair("src", src));
+                msgValuePairs.add(new BasicNameValuePair("dest", dest));
+                msgValuePairs.add(new BasicNameValuePair("text", URLEncoder.encode(text, "UTF-8")));
+                msgValuePairs.add(new BasicNameValuePair("submit_time", submit_time));
+                msgValuePairs.add(new BasicNameValuePair("forward_time", forward_time));
+                httppost.setEntity(new UrlEncodedFormEntity(msgValuePairs));
+
+                // Execute HTTP Post Request
+                HttpResponse response = httpclient.execute(httppost);
+                strResult = EntityUtils.toString(response.getEntity());
+                //	        Toast.makeText(CallAndSms.this, "received: "+strResult, Toast.LENGTH_SHORT).show();
+            } catch (ClientProtocolException e) {
+                Toast.makeText(this.getActivity(), "failed " + e.toString(), Toast.LENGTH_SHORT).show();
+            } catch (IOException e) {
+                Toast.makeText(this.getActivity(), "failed "+e.toString(), Toast.LENGTH_SHORT).show();
+            }
+            ///////////////////////
+	    /*parsing responding json and decide whether SMS or NET*/
+            String PATH ="";
+            try {
+                JSONObject jsonPath = new JSONObject(strResult);
+                PATH = jsonPath.getString("PATH");
+//			Toast.makeText(CallAndSms.this, "PATH: "+PATH, Toast.LENGTH_SHORT).show();
+            } catch (JSONException e) {
+                Toast.makeText(this.getActivity(), "failed "+e.toString(), Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
+	    /*if SMS*/
+            try {
+                if (PATH.equals("NET")){
+                    Toast.makeText(	this.getActivity(),"Sent Via Network",Toast.LENGTH_SHORT ).show();
+
+                }
+                else {
+                    SmsManager sms = SmsManager.getDefault();
+                    List<String> texts = sms.divideMessage(text);
+                    for (String subtext : texts) {
+                        //the destination is got from text1
+                        sms.sendTextMessage(dest, null, subtext, null, null);
+                    }
+                    // note: not checked success or failure yet
+                    Toast.makeText(	this.getActivity(),"Sent Via SMS",Toast.LENGTH_SHORT ).show();
+                }
+            } catch (Exception e) {
+                Toast.makeText(this.getActivity(), "failed " + e.toString(), Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
         }
 
     }
