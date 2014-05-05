@@ -120,11 +120,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         }
     }
 
-    /**
-     * Start receiving the service
-     * Taken from lines 70 - 77
-     */
-    /*
     public void start_recv_service()
     {
         AlarmManager aManager = (AlarmManager) getSystemService(Service.ALARM_SERVICE);
@@ -134,145 +129,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         //Toast.makeText(CallAndSms.this, "start service to recv unread", Toast.LENGTH_LONG).show();
     }
 
-    public static  String getLocal(){
-        return "+8615527518807";
-    }
-    public static String getGMT(){
-        Date date = new Date();
-        Timestamp currentTimestamp = new Timestamp(date.getTime());
-        return currentTimestamp.toString();
-    }
-    public String addZoneCode(String number){//zone number will be set
-        TelephonyManager phoneMgr=(TelephonyManager)this.getSystemService(Context.TELEPHONY_SERVICE);
-
-        String countryCode = phoneMgr.getNetworkCountryIso();
-        if (number.startsWith("+"))
-            return number;
-        else
-        if (countryCode.equals("cn"))
-            return "+86".concat(number);
-        else
-            return "+1".concat(number);
-    }
-    public void saveMsg(String src,String dest,String text,String submit_time,String forward_time){
-        //insert the msg to ContentProvider
-        ContentResolver contentResolver = null;
-        contentResolver = getContentResolver();
-        ContentValues values = new ContentValues();
-        values.put(MSGS.MSG._FROM,src);
-        values.put(MSGS.MSG._TO,dest);
-        values.put(MSGS.MSG._TEXT,text);
-        values.put(MSGS.MSG._SENT,submit_time);
-        values.put(MSGS.MSG._RECEIVED,forward_time);
-        //here goes the insert method;
-        contentResolver.insert(MSGS.MSG.MSGS_CONTENT_URI, values);
-        //print a notification
-        Toast.makeText(MainActivity.this,"msg saved",Toast.LENGTH_LONG).show();
-
-    }
-*/
-    /*
-    public void sendMsg(String dest_num,String text_content){//the dest number would be sent to DB for check
-
-
-        //initialize the message Structure
-        String msg_id = "2";
-    	/*
-    	 * 1 for test on PC
-    	 * 2 for test on phone
-    	 * 0 for common user*//*
-        String src = getLocal();
-        String dest = addZoneCode(dest_num);
-        String text = text_content;
-        String submit_time = getGMT();
-        String forward_time = "2014 04 03 08:49:34";
-        //save to lacal ContentProvider
-        saveMsg(src,dest,text,submit_time,forward_time);
-    	/*following is sending using HttpClient*//*
-        HttpClient httpclient = new DefaultHttpClient();
-        HttpPost httppost = new HttpPost("http://1.rtest2.sinaapp.com/chat/msg/");
-        String strResult = "";
-        try {
-            // Add your data
-            List<NameValuePair> msgValuePairs = new ArrayList<NameValuePair>(2);
-            msgValuePairs.add(new BasicNameValuePair("msgid", msg_id));
-            msgValuePairs.add(new BasicNameValuePair("src", src));
-            msgValuePairs.add(new BasicNameValuePair("dest", dest));
-            msgValuePairs.add(new BasicNameValuePair("text", URLEncoder.encode(text, "UTF-8")));
-            msgValuePairs.add(new BasicNameValuePair("submit_time", submit_time));
-            msgValuePairs.add(new BasicNameValuePair("forward_time", forward_time));
-            httppost.setEntity(new UrlEncodedFormEntity(msgValuePairs));
-
-            // Execute HTTP Post Request
-            HttpResponse response = httpclient.execute(httppost);
-            strResult = EntityUtils.toString(response.getEntity());
-//	        Toast.makeText(MainActivity.this, "received: "+strResult, Toast.LENGTH_SHORT).show();
-        } catch (ClientProtocolException e) {
-            Toast.makeText(MainActivity.this, "failed "+e.toString(), Toast.LENGTH_SHORT).show();
-        } catch (IOException e) {
-            Toast.makeText(MainActivity.this, "failed "+e.toString(), Toast.LENGTH_SHORT).show();
-        }
-	    /*parsing responding json and decide whether SMS or NET*//*
-        String PATH ="";
-        try {
-            JSONObject jsonPath = new JSONObject(strResult);
-            PATH = jsonPath.getString("PATH");
-//			Toast.makeText(MainActivity.this, "PATH: "+PATH, Toast.LENGTH_SHORT).show();
-        } catch (JSONException e) {
-            Toast.makeText(MainActivity.this, "failed "+e.toString(), Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-        }
-	    /*if SMS*//*
-        try {
-            if (PATH.equals("SMS")){
-                SmsManager sms = SmsManager.getDefault();
-                List<String> texts = sms.divideMessage(text);
-                for (String subtext : texts) {
-                    //the destination is got from text1
-                    sms.sendTextMessage(dest, null, subtext, null, null);
-                }
-                // note: not checked success or failure yet
-                Toast.makeText(	MainActivity.this,"Sent Via SMS",Toast.LENGTH_SHORT ).show();
-            }
-            else if(PATH.equals("NET")){
-                Toast.makeText(	MainActivity.this,"Sent Via Network",Toast.LENGTH_SHORT ).show();
-            }
-            else
-                Toast.makeText(	MainActivity.this,"PATH: "+ PATH+" end",Toast.LENGTH_SHORT ).show();
-        } catch (Exception e) {
-            Toast.makeText(MainActivity.this, "failed " + e.toString(), Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-        }
-
-    }
-
-    /**
-     * Initialize the buttons for the compose new page.
-     * Taken from lines 201 - 221 of CallAndSms.java
-     *//*
-    private void setComponent() {
-        setContentView(R.layout.compose_msg);
-        Button bt2 = (Button) findViewById(R.id.Button02);
-
-        bt2.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("NewApi")
-            @Override
-            public void onClick(View v) {
-                //get the message content from text2
-                TextView messagContentView = (TextView)findViewById(R.id.editText2);
-                String smsContent = messagContentView.getText().toString();
-                //get the destination number from text1
-                TextView destContentView = (TextView)findViewById(R.id.editText1);
-                String destNumber = destContentView.getText().toString();
-
-                //send to server and save to local ContentProvider
-                sendMsg(destNumber,smsContent);
-
-            }
-        });
-
-    }
-*/
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         
@@ -391,6 +247,131 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
             return rootView;
         }
+        private void setComponent(final View rootView) {
+            Button bt2 = (Button) rootView.findViewById(R.id.Button_send);
+
+            bt2.setOnClickListener(new View.OnClickListener() {
+                @SuppressLint("NewApi")
+                @Override
+                public void onClick(View v) {
+                    //get the message content
+                    TextView messagContentView = (TextView) rootView.findViewById(R.id.msg_text);
+                    String smsContent = messagContentView.getText().toString();
+                    //get the destination number
+                    TextView destContentView = (TextView) rootView.findViewById(R.id.msg_dest);
+                    String destNumber = destContentView.getText().toString();
+                    //get the source number
+                    TextView srcContentView = (TextView) rootView.findViewById(R.id.msg_src);
+                    String srcNumber = srcContentView.getText().toString();
+                    //send to server and save to local ContentProvider
+                    sendMsg(destNumber,smsContent,srcNumber);
+                }
+            });
+        }
+        public String addZoneCode(String dest_number,String local_num){//zone number will be set
+            if (dest_number.startsWith("+"))
+                return dest_number;
+            else
+            if (local_num.startsWith("+86"))
+                return "+86".concat(dest_number);
+            else
+                return "+1".concat(dest_number);
+        }
+        public static String getGMT(){
+            Date date = new Date();
+            Timestamp currentTimestamp = new Timestamp(date.getTime());
+            return currentTimestamp.toString();
+        }
+        public void saveMsg(Context contexts,String src, String dest, String text, String submit_time, String forward_time){
+            //insert the msg to ContentProvider
+            ContentResolver contentResolver = null;
+            contentResolver = contexts.getContentResolver();
+            ContentValues values = new ContentValues();
+            values.put(MSGS.MSG._FROM,src);
+            values.put(MSGS.MSG._TO,dest);
+            values.put(MSGS.MSG._TEXT,text);
+            values.put(MSGS.MSG._SENT,submit_time);
+            values.put(MSGS.MSG._RECEIVED,forward_time);
+            //here goes the insert method;
+            contentResolver.insert(MSGS.MSG.MSGS_CONTENT_URI, values);
+            //print a notification
+            Toast.makeText(this.getActivity(),"msg saved",Toast.LENGTH_LONG).show();
+
+        }
+        public void sendMsg(final String dest_num, final String text_content,final String src_num){//the dest number would be sent to DB for check
+
+            //initialize the message Structure
+            String msg_id = "2";
+            /*
+             * 1 for test on PC
+             * 2 for test on phone
+             * 0 for common user*/
+            String src = src_num;
+            String dest = addZoneCode(dest_num,src_num);
+            String text = text_content;
+            String submit_time = getGMT();
+            String forward_time = "2014 04 03 08:49:34";
+
+            //save to local ContentProvider
+            saveMsg(this.getActivity(),src,dest,text,submit_time,forward_time);
+    	/*following is sending using HttpClient*/
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost("http://1.rtest2.sinaapp.com/chat/msg/");
+            String strResult = "";
+            try {
+                // Add your data
+                List<NameValuePair> msgValuePairs = new ArrayList<NameValuePair>(2);
+                msgValuePairs.add(new BasicNameValuePair("msgid", msg_id));
+                msgValuePairs.add(new BasicNameValuePair("src", src));
+                msgValuePairs.add(new BasicNameValuePair("dest", dest));
+                msgValuePairs.add(new BasicNameValuePair("text", URLEncoder.encode(text, "UTF-8")));
+                msgValuePairs.add(new BasicNameValuePair("submit_time", submit_time));
+                msgValuePairs.add(new BasicNameValuePair("forward_time", forward_time));
+                httppost.setEntity(new UrlEncodedFormEntity(msgValuePairs));
+
+                // Execute HTTP Post Request
+                HttpResponse response = httpclient.execute(httppost);
+                strResult = EntityUtils.toString(response.getEntity());
+                //	        Toast.makeText(CallAndSms.this, "received: "+strResult, Toast.LENGTH_SHORT).show();
+            } catch (ClientProtocolException e) {
+                Toast.makeText(this.getActivity(), "failed " + e.toString(), Toast.LENGTH_SHORT).show();
+            } catch (IOException e) {
+                Toast.makeText(this.getActivity(), "failed "+e.toString(), Toast.LENGTH_SHORT).show();
+            }
+            ///////////////////////
+	    /*parsing responding json and decide whether SMS or NET*/
+            String PATH ="";
+            try {
+                JSONObject jsonPath = new JSONObject(strResult);
+                PATH = jsonPath.getString("PATH");
+//			Toast.makeText(CallAndSms.this, "PATH: "+PATH, Toast.LENGTH_SHORT).show();
+            } catch (JSONException e) {
+                Toast.makeText(this.getActivity(), "failed "+e.toString(), Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
+	    /*if SMS*/
+            try {
+                if (PATH.equals("NET")){
+                    Toast.makeText(	this.getActivity(),"Sent Via Network",Toast.LENGTH_SHORT ).show();
+
+                }
+                else {
+                    SmsManager sms = SmsManager.getDefault();
+                    List<String> texts = sms.divideMessage(text);
+                    for (String subtext : texts) {
+                        //the destination is got from text1
+                        sms.sendTextMessage(dest, null, subtext, null, null);
+                    }
+                    // note: not checked success or failure yet
+                    Toast.makeText(	this.getActivity(),"Sent Via SMS",Toast.LENGTH_SHORT ).show();
+                }
+            } catch (Exception e) {
+                Toast.makeText(this.getActivity(), "failed " + e.toString(), Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
+        }
+
+
 
     }
 
