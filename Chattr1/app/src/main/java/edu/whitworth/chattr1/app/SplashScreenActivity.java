@@ -21,7 +21,7 @@ public class SplashScreenActivity extends ActionBarActivity {
 
             /*
              * Showing splash screen with a timer. This will be useful when you
-             * want to show case your app logo / company
+             * want to showcase your app logo / company
              */
 
             @Override

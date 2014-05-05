@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- From: file:/C:/Users/ahannon14/Desktop/5.3.2014/TabTest2/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/Q:/ahannon14/CS396/Final/TabTest2/app/src/main/res/values/strings.xml -->
     <eat-comment />
 
     <string-array name="contacts_list">
@@ -26,7 +26,7 @@
         <item>            thing2</item>
         <item>            thing3</item>
     </string-array>
-    <!-- From: file:/C:/Users/ahannon14/Desktop/5.3.2014/TabTest2/app/build/exploded-bundles/ComAndroidSupportAppcompatV71900.aar/res/values/values.xml -->
+    <!-- From: file:/Q:/ahannon14/CS396/Final/TabTest2/app/build/exploded-bundles/ComAndroidSupportAppcompatV71900.aar/res/values/values.xml -->
     <eat-comment />
 
     <attr name="actionBarDivider" format="reference" />
@@ -103,12 +103,12 @@
     <color name="abc_search_url_text_normal">#7fa87f</color>
     <color name="abc_search_url_text_pressed">@android:color/black</color>
     <color name="abc_search_url_text_selected">@android:color/black</color>
-    <!-- From: file:/C:/Users/ahannon14/Desktop/5.3.2014/TabTest2/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/Q:/ahannon14/CS396/Final/TabTest2/app/src/main/res/values/strings.xml -->
     <eat-comment />
 
     <color name="splash_background">#000000</color>
     <color name="white">#FFFFFF</color>
-    <!-- From: file:/C:/Users/ahannon14/Desktop/5.3.2014/TabTest2/app/build/exploded-bundles/ComAndroidSupportAppcompatV71900.aar/res/values/values.xml -->
+    <!-- From: file:/Q:/ahannon14/CS396/Final/TabTest2/app/build/exploded-bundles/ComAndroidSupportAppcompatV71900.aar/res/values/values.xml -->
     <eat-comment />
 
     <declare-styleable name="ActionBar">
@@ -514,12 +514,12 @@
     <dimen name="abc_panel_menu_list_width">296dp</dimen>
     <dimen name="abc_search_view_preferred_width">320dip</dimen>
     <dimen name="abc_search_view_text_min_width">160dip</dimen>
-    <!-- From: file:/C:/Users/ahannon14/Desktop/5.3.2014/TabTest2/app/src/main/res/values/dimens.xml -->
+    <!-- From: file:/Q:/ahannon14/CS396/Final/TabTest2/app/src/main/res/values/dimens.xml -->
     <eat-comment />
 
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <!-- From: file:/C:/Users/ahannon14/Desktop/5.3.2014/TabTest2/app/build/exploded-bundles/ComAndroidSupportAppcompatV71900.aar/res/values/values.xml -->
+    <!-- From: file:/Q:/ahannon14/CS396/Final/TabTest2/app/build/exploded-bundles/ComAndroidSupportAppcompatV71900.aar/res/values/values.xml -->
     <eat-comment />
 
     <item name="action_bar_activity_content" type="id"/>
@@ -544,7 +544,7 @@
     <string name="abc_searchview_description_voice">Voice search</string>
     <string name="abc_shareactionprovider_share_with">Share with</string>
     <string name="abc_shareactionprovider_share_with_application">Share with %s</string>
-    <!-- From: file:/C:/Users/ahannon14/Desktop/5.3.2014/TabTest2/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/Q:/ahannon14/CS396/Final/TabTest2/app/src/main/res/values/strings.xml -->
     <eat-comment />
 
     <string name="action_settings">Settings</string>
@@ -560,13 +560,13 @@
     <string name="title_section1">Conversation</string>
     <string name="title_section2">Compose New</string>
     <string name="title_section3">Contacts</string>
-    <!-- From: file:/C:/Users/ahannon14/Desktop/5.3.2014/TabTest2/app/src/main/res/values/styles.xml -->
+    <!-- From: file:/Q:/ahannon14/CS396/Final/TabTest2/app/src/main/res/values/styles.xml -->
     <eat-comment />
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
     </style>
-    <!-- From: file:/C:/Users/ahannon14/Desktop/5.3.2014/TabTest2/app/build/exploded-bundles/ComAndroidSupportAppcompatV71900.aar/res/values/values.xml -->
+    <!-- From: file:/Q:/ahannon14/CS396/Final/TabTest2/app/build/exploded-bundles/ComAndroidSupportAppcompatV71900.aar/res/values/values.xml -->
     <eat-comment />
 
     <style name="TextAppearance.AppCompat.Base.CompactMenu.Dialog" parent="android:TextAppearance.Medium">

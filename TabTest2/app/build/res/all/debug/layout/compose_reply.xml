@@ -26,4 +26,4 @@
         android:onClick="send_message"
         android:textSize="30sp"/>
 
-</LinearLayout><!-- From: file:/C:/Users/ahannon14/Desktop/5.3.2014/TabTest2/app/src/main/res/layout/compose_reply.xml -->
+</LinearLayout><!-- From: file:/Q:/ahannon14/CS396/Final/TabTest2/app/src/main/res/layout/compose_reply.xml -->
