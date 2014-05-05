@@ -78,13 +78,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Line 49
-        //setComponent();
-        // From line 50 in CallAndSms.java
-        //startService(new Intent(this, MyService.class));
-        // Line 51
-        //start_recv_service();
-
         // Set up the action bar.
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -118,6 +111,17 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                             .setText(mSectionsPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
         }
+        //start a service, listen from server.
+        startService(new Intent(this, MyService.class));
+        start_recv_service();
+    }
+    public void start_recv_service()
+    {
+        AlarmManager aManager = (AlarmManager) getSystemService(Service.ALARM_SERVICE);
+        Intent intent = new Intent(MainActivity.this,MyService.class);
+        final PendingIntent pi = PendingIntent.getService(MainActivity.this, 0, intent, 0);
+        aManager.setRepeating(AlarmManager.RTC_WAKEUP, 0, 15000, pi);
+        //Toast.makeText(CallAndSms.this, "start service to recv unread", Toast.LENGTH_LONG).show();
     }
 
     public void start_recv_service()
@@ -242,8 +246,8 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.compose_msg, container, false);
-
+           final View rootView = inflater.inflate(R.layout.compose_msg, container, false);
+           setComponent(rootView);
 
             return rootView;
         }
@@ -272,10 +276,10 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             if (dest_number.startsWith("+"))
                 return dest_number;
             else
-            if (local_num.startsWith("+86"))
-                return "+86".concat(dest_number);
-            else
-                return "+1".concat(dest_number);
+                if (local_num.startsWith("+86"))
+                    return "+86".concat(dest_number);
+                else
+                    return "+1".concat(dest_number);
         }
         public static String getGMT(){
             Date date = new Date();
@@ -370,9 +374,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                 e.printStackTrace();
             }
         }
-
-
-
     }
 
     /**

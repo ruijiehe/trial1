@@ -7,7 +7,7 @@ import android.provider.BaseColumns;
  * Created by Administrator on 14-4-19.
  */
 public class MSGS {
-    public static final String AUTHORITY = "com.example.app";
+    public static final String AUTHORITY = "com.example.app.chattr";
     public static final class MSG implements BaseColumns {
         public static final String _FROM = "src";//where the msg is from
         public static final String _TO = "dest";//where the msg is to

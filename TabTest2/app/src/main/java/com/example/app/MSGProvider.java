@@ -121,7 +121,7 @@ public class MSGProvider extends ContentProvider{
             case msgs:
                 // execute query
                 assert db != null;
-                return db.query("dict", projection, selection, selectionArgs,
+                return db.query("msgs", projection, selection, selectionArgs,
                         null, null, sortOrder);
             case msg:
                 // find the row of query
@@ -133,13 +133,13 @@ public class MSGProvider extends ContentProvider{
                     where = where + " and " + selection;
                 }
                 assert db != null;
-                return db.query("dict", projection, where, selectionArgs, null,
+                return db.query("msgs", projection, where, selectionArgs, null,
                         null, sortOrder);
             default:
                 throw new IllegalArgumentException("Invalidate Uri:" + uri);
         }
     }
-    //return MIME type of data associated with certain uri 返回指定uri参数对应的数据的MIME类型
+    //return MIME type of data associated with certain uri s
     @Override
     public String getType(Uri uri)
     {
@@ -147,10 +147,10 @@ public class MSGProvider extends ContentProvider{
         {
             // if multiple data to be operated
             case msgs:
-                return "vnd.android.cursor.dir/edu.whitworth.sendandrecv.app.chattr";
+                return "vnd.android.cursor.dir/com.example.app.chattr";
             // if single data to be operated
             case msg:
-                return "vnd.android.cursor.item/edu.whitworth.sendandrecv.app.chattr";
+                return "vnd.android.cursor.item/com.example.app.chattr";
             default:
                 throw new IllegalArgumentException("Invalidate Uri:" + uri);
         }
