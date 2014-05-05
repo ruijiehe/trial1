@@ -124,15 +124,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         //Toast.makeText(CallAndSms.this, "start service to recv unread", Toast.LENGTH_LONG).show();
     }
 
-    public void start_recv_service()
-    {
-        AlarmManager aManager = (AlarmManager) getSystemService(Service.ALARM_SERVICE);
-        Intent intent = new Intent(MainActivity.this,MyService.class);
-        final PendingIntent pi = PendingIntent.getService(MainActivity.this, 0, intent, 0);
-        aManager.setRepeating(AlarmManager.RTC_WAKEUP, 0, 15000, pi);
-        //Toast.makeText(CallAndSms.this, "start service to recv unread", Toast.LENGTH_LONG).show();
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         
