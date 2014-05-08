@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+
     <string name="app_name">Chattr</string>
+    <string name="login">Login</string>
     <string name="title_section1">Conversation</string>
     <string name="title_section2">Compose New</string>
     <string name="title_section3">Contacts</string>

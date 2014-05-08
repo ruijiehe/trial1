@@ -23,6 +23,7 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
@@ -128,9 +129,9 @@ public class MyService extends Service {
         values.put(MSGS.MSG._SENT,submit_time);
         values.put(MSGS.MSG._RECEIVED,forward_time);
         //here goes the insert method;
-        contentResolver.insert(MSGS.MSG.MSGS_CONTENT_URI, values);
+        Uri msgUri = contentResolver.insert(MSGS.MSG.MSGS_CONTENT_URI, values);
         //print a notification
-        //Toast.makeText(getApplicationContext(),"msg saved",Toast.LENGTH_LONG).show();
+        ShowToastInIntentService("msg saved:"+msgUri);
 
     }
 

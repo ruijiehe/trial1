@@ -6,6 +6,7 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+
 /**
  * Created by Administrator on 14-4-20.
  */
@@ -13,15 +14,19 @@ public class MSGProvider extends ContentProvider{
     private static UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
     private static final int msgs = 1;
     private static final int msg = 2;
+    private static final int users = 3;
+    private static final int user = 4;
     private MyDatabaseHelper dbOpenHelper;
     static {
         matcher.addURI(MSGS.AUTHORITY,"msgs",msgs);
         matcher.addURI(MSGS.AUTHORITY,"msg",msg);
+        matcher.addURI(MSGS.AUTHORITY,"users",users);
+        matcher.addURI(MSGS.AUTHORITY,"user",user);
     }
     @Override
     public boolean onCreate()
     {
-        dbOpenHelper = new MyDatabaseHelper(this.getContext(),"Chattr.db3",1);
+        dbOpenHelper = new MyDatabaseHelper(this.getContext());
         return true;
     }
     //method that insert data
@@ -32,17 +37,36 @@ public class MSGProvider extends ContentProvider{
         SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
         //insert row, return row ID
         assert db != null;
-        long rowId = db.insert("msgs", MSGS.MSG._FROM, values);
-        // if successfully inserted, return uri
-        if (rowId > 0)
+        switch (matcher.match(uri))
         {
-            // add new data after the exists uri
-            Uri wordUri = ContentUris.withAppendedId(uri, rowId);
-            // notify change in data
-            getContext().getContentResolver().notifyChange(wordUri, null);
-            return wordUri;
+            case msgs:
+                long msg_rowId = db.insert("msgs", MSGS.MSG._FROM, values);
+                // if successfully inserted, return uri
+                if (msg_rowId > 0)
+                {
+                    // add new data after the exists uri
+                    Uri msg_Uri = ContentUris.withAppendedId(uri, msg_rowId);
+                    // notify change in data
+                    getContext().getContentResolver().notifyChange(msg_Uri, null);
+                    return msg_Uri;
+                }
+                return null;
+            case users:
+                //TODO here exists a problem ,left unfixed
+                long user_rowId = db.insert("users", USERS.USER._NUM, values);
+                // if successfully inserted, return uri
+                if (user_rowId > 0)
+                {
+                    // add new data after the exists uri
+                    Uri wordUri = ContentUris.withAppendedId(uri, user_rowId);
+                    // notify change in data
+                    getContext().getContentResolver().notifyChange(wordUri, null);
+                    return wordUri;
+                }
+                return null;
+            default:
+                return null;
         }
-        return null;
     }
     // method that delete data
     @Override
@@ -135,6 +159,23 @@ public class MSGProvider extends ContentProvider{
                 assert db != null;
                 return db.query("msgs", projection, where, selectionArgs, null,
                         null, sortOrder);
+            case users:
+                // execute query
+                assert db != null;
+                return db.query("users", projection, selection, selectionArgs,
+                        null, null, sortOrder);
+            case user:
+                // find the row of query
+                long user_id = ContentUris.parseId(uri);
+                String user_where = USERS.USER._ID + "=" + user_id;
+                // concat where expression if previous 'where' has a son expression
+                if (selection != null && !"".equals(selection))
+                {
+                    user_where = user_where + " and " + selection;
+                }
+                assert db != null;
+                return db.query("users", projection, user_where, selectionArgs, null,
+                        null, sortOrder);
             default:
                 throw new IllegalArgumentException("Invalidate Uri:" + uri);
         }
@@ -150,6 +191,11 @@ public class MSGProvider extends ContentProvider{
                 return "vnd.android.cursor.dir/com.example.app.chattr";
             // if single data to be operated
             case msg:
+                return "vnd.android.cursor.item/com.example.app.chattr";
+            case users:
+                return "vnd.android.cursor.dir/com.example.app.chattr";
+            // if single data to be operated
+            case user:
                 return "vnd.android.cursor.item/com.example.app.chattr";
             default:
                 throw new IllegalArgumentException("Invalidate Uri:" + uri);
