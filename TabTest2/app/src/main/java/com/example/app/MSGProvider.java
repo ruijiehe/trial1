@@ -101,7 +101,7 @@ public class MSGProvider extends ContentProvider{
                     where = where + " and " + selection;
                 }
                 assert db != null;
-                num = db.update("dict", values, where, selectionArgs);
+                num = db.update("msgs", values, where, selectionArgs);
                 break;
             default:
                 throw new IllegalArgumentException("Invalidate Uri:" + uri);
