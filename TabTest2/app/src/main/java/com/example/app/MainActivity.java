@@ -17,6 +17,7 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.support.v7.app.ActionBarActivity;
@@ -288,9 +289,9 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             values.put(MSGS.MSG._SENT,submit_time);
             values.put(MSGS.MSG._RECEIVED,forward_time);
             //here goes the insert method;
-            contentResolver.insert(MSGS.MSG.MSGS_CONTENT_URI, values);
+            Uri msgUri = contentResolver.insert(MSGS.MSG.MSGS_CONTENT_URI, values);
             //print a notification
-            Toast.makeText(this.getActivity(),"msg saved",Toast.LENGTH_LONG).show();
+            Toast.makeText(this.getActivity(),"msg saved "+msgUri,Toast.LENGTH_LONG).show();
 
         }
         public void sendMsg(final String dest_num, final String text_content,final String src_num){//the dest number would be sent to DB for check

@@ -7,6 +7,7 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
 import android.widget.Toast;
@@ -59,9 +60,9 @@ public class ReceiverSMS extends BroadcastReceiver {
         values.put(MSGS.MSG._SENT,submit_time);
         values.put(MSGS.MSG._RECEIVED,forward_time);
         //here goes the insert method;
-        contentResolver.insert(MSGS.MSG.MSGS_CONTENT_URI, values);
+        Uri msgUri = contentResolver.insert(MSGS.MSG.MSGS_CONTENT_URI, values);
         //print a notification
-        Toast.makeText(contexts,"msg saved",Toast.LENGTH_LONG).show();
+        Toast.makeText(contexts,"msg saved:"+msgUri,Toast.LENGTH_LONG).show();
 
     }
     public static String getGMT(){

@@ -57,7 +57,6 @@
         <provider
             android:authorities="com.example.app.chattr"
             android:name=".MSGProvider"/>
-
     </application>
 
 </manifest>
