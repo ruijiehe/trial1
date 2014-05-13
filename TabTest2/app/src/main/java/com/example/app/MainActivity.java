@@ -17,6 +17,7 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
@@ -396,7 +397,58 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
             return rootView;
         }
+        public String getLocal(Context context){
+            try{
+                Toast.makeText(context, "accessing user number", Toast.LENGTH_SHORT).show();
+                ContentResolver contentResolver = null;
+                contentResolver = context.getContentResolver();
+                String [] mProjection = {
+                        USERS.USER._NUM,
+                };
+                String mSelection = "flag like ?";
+                String[] mSelectionArgs = {"1"};
+                final Cursor mCursor;
+                //here goes the insert method;
+                try {
+                    mCursor = contentResolver.query(
+                            USERS.USER.USERS_CONTENT_URI,
+                            mProjection,
+                            mSelection,
+                            mSelectionArgs,
+                            null);
+                    if(0 == mCursor.getCount()){//return 0,and ready for an insert from app_user
+                        Toast.makeText(context, "null query", Toast.LENGTH_SHORT).show();
+                        return "";
+                    }
+                    else {
+                        if (mCursor.moveToFirst()) { // if Cursor is not empty
+                            String num = mCursor.getString(mCursor.getColumnIndex(USERS.USER._NUM));
+                            Toast.makeText(context, "Num: " + num, Toast.LENGTH_LONG).show();
+                            return num;
+                        }
+                        else {
+                            // Cursor is empty
+                            Toast.makeText(context, "no num found", Toast.LENGTH_SHORT).show();
+                            return "";
+                        }
+                    }
+                }
+                catch (Exception e){
+                    Toast.makeText(context, "query error"+e.toString(), Toast.LENGTH_LONG).show();
+                }
+            }
+            catch (Exception e){
+                Toast.makeText(context,"checking error"+ e.toString(), Toast.LENGTH_LONG).show();
+                e.printStackTrace();
+            }
+            return "";
+        }
         private void setComponent(final View rootView) {
+            //extract local number from content provider
+            final Context context = this.getActivity();
+            String localNum = getLocal(context);
+            TextView srcContent = (TextView) rootView.findViewById(R.id.msg_src);
+            srcContent.setText(localNum);
             Button bt2 = (Button) rootView.findViewById(R.id.Button_send);
 
             bt2.setOnClickListener(new View.OnClickListener() {
@@ -465,7 +517,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             saveMsg(this.getActivity(),src,dest,text,submit_time,forward_time);
     	/*following is sending using HttpClient*/
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost("http://1.rtest2.sinaapp.com/chat/msg/");
+            HttpPost httppost = new HttpPost(LoginActivity.msg_Url);
             String strResult = "";
             try {
                 // Add your data
