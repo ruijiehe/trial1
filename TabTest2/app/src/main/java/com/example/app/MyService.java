@@ -23,6 +23,7 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.IBinder;
@@ -60,7 +61,7 @@ public class MyService extends Service {
         new Thread (new Runnable() {
             public void run() {
                 HttpClient httpclient = new DefaultHttpClient();
-                HttpPost httppost = new HttpPost("http://1.rtest2.sinaapp.com/chat/receive/");
+                HttpPost httppost = new HttpPost(LoginActivity.recv_Url);
                 String src=getLocal();
                 try {
                     // Add your data
@@ -92,7 +93,7 @@ public class MyService extends Service {
                                 recv_submit_time = jsonMsgString.getString("submit_time");
                                 recv_forward_time = jsonMsgString.getString("forward_time");
                                 saveMsg(recv_src, recv_dest, recv_text, recv_submit_time, recv_forward_time);
-                                ShowToastInIntentService("saved: ".concat(recv_src).concat(recv_text));
+                                ShowToastInIntentService("from: ".concat(recv_src).concat("\n").concat(recv_text));
                             } catch (JSONException e) {
                                 //Toast.makeText(CallAndSms.this, "failed "+e.toString(), Toast.LENGTH_SHORT).show();
                                 e.printStackTrace();
@@ -135,9 +136,55 @@ public class MyService extends Service {
 
     }
 
-    private String getLocal() {
-        // TODO get local number from provider
-        return "+8615527518807";
+    public String getLocal(){
+        final Context context = this;
+        final String[] number = {""};
+        new Handler(Looper.getMainLooper()).post(new Runnable()
+        {  @Override public void run(){
+            try{
+                //Toast.makeText(context, "accessing user number", Toast.LENGTH_SHORT).show();
+                ContentResolver contentResolver = null;
+                contentResolver = context.getContentResolver();
+                String [] mProjection = {
+                        USERS.USER._NUM,
+                };
+                String mSelection = "flag like ?";
+                String[] mSelectionArgs = {"1"};
+                final Cursor mCursor;
+                //here goes the insert method;
+                try {
+                    mCursor = contentResolver.query(
+                            USERS.USER.USERS_CONTENT_URI,
+                            mProjection,
+                            mSelection,
+                            mSelectionArgs,
+                            null);
+                    if(0 == mCursor.getCount()){//return 0,and ready for an insert from app_user
+                        //Toast.makeText(context, "null query", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        if (mCursor.moveToFirst()) { // if Cursor is not empty
+                            String num = mCursor.getString(mCursor.getColumnIndex(USERS.USER._NUM));
+                            //Toast.makeText(context, "Num: " + num, Toast.LENGTH_LONG).show();
+                            number[0] = num;
+                        }
+                        else {
+                            // Cursor is empty
+                           // Toast.makeText(context, "no num found", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+                catch (Exception e){
+                    Toast.makeText(context, "query error"+e.toString(), Toast.LENGTH_LONG).show();
+                }
+            }
+            catch (Exception e){
+                //Toast.makeText(context,"checking error"+ e.toString(), Toast.LENGTH_LONG).show();
+                e.printStackTrace();
+            }
+            }
+        });
+        return number[0];
     }
     public static String getGMT(){
         Date date = new Date();
