@@ -40,6 +40,10 @@ import java.util.List;
 public class LoginActivity extends ActionBarActivity {
 
     private static int SPLASH_TIME_OUT = 500;
+    public static String msg_Url = "http://1.rtest2.sinaapp.com/chat/msg/";
+    public static String reg_Url = "http://1.rtest2.sinaapp.com/chat/register/";
+    public static String recv_Url = "http://1.rtest2.sinaapp.com/chat/receive/";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -167,31 +171,36 @@ public class LoginActivity extends ActionBarActivity {
                 TextView nameContentView = (TextView)findViewById(R.id.name);
                 String name = nameContentView.getText().toString();
                 String number = zone.concat(subnum);//generate a full number like +8615527518807
-                sendUser(name,number);
-                saveUser(name,zone,subnum,number);
-                //Switch Activity after user registered and saved
-                new Handler().postDelayed(new Runnable() {
-            /*
-             * Showing splash screen with a timer. This will be useful when you
-             * want to show case your app logo / company
-             */
-                    @Override
-                    public void run() {
-                        // This method will be executed once the timer is over
-                        // Start your app main activity
-                        Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(i);
+                if(!(zone.startsWith("+"))||number.equals("")||name.equals("")){//input error
+                    Toast.makeText(v.getContext(), "Invalidate Input String", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    sendUser(name,number);
+                    saveUser(name,zone,subnum,number);
+                    //Switch Activity after user registered and saved
+                    new Handler().postDelayed(new Runnable() {
+                /*
+                 * Showing splash screen with a timer. This will be useful when you
+                 * want to show case your app logo / company
+                 */
+                        @Override
+                        public void run() {
+                            // This method will be executed once the timer is over
+                            // Start your app main activity
+                            Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(i);
 
-                        // close this activity
-                        finish();
-                    }
-                }, SPLASH_TIME_OUT);
+                            // close this activity
+                            finish();
+                        }
+                    }, SPLASH_TIME_OUT);
+                }
             }
         });
     }
     public void sendUser(final String name,final String number){//send the name and number to server
         HttpClient httpclient = new DefaultHttpClient();
-        HttpPost httppost = new HttpPost("http://1.rtest2.sinaapp.com/chat/register/");
+        HttpPost httppost = new HttpPost(LoginActivity.reg_Url);
         String strResult = "";
         try {
             // Add your data
