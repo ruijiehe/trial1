@@ -7,4 +7,4 @@
     android:gravity="center_vertical|right"
     android:background="@drawable/chat_bubble_right_9patch"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" /><!-- From: file:/C:/Users/ahannon14/Desktop/5.3.2014/TabTest2/app/src/main/res/layout/chat_layout.xml -->
+    android:layout_height="wrap_content" /><!-- From: file:/Q:/ahannon14/CS396/Final/TabTest2/app/src/main/res/layout/chat_layout.xml -->
