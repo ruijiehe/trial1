@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <string name="app_name">Chattr</string>
+    <string name="login">Login</string>
+    <string name="title_section1">Conversation</string>
+    <string name="title_section2">Compose New</string>
+    <string name="title_section3">Contacts</string>
+    <string name="action_settings">Settings</string>
+
+    <string-array name="my_list">
+        <item>            thing1</item>
+        <item>            thing2</item>
+        <item>            thing3</item>
+    </string-array>
+    <string-array name="conversation_list">
+        <item>            Conversation with Ruijie He</item>
+        <item>            Conversation with Mom</item>
+        <item>            Conversation with Beck Taylor</item>
+    </string-array>
+    <string-array name="contacts_list">
+        <item>            Ruijie He</item>
+        <item>            Mom</item>
+        <item>            Beck Taylor</item>
+    </string-array>
+    <string-array name="dummy_convo">
+        <item>"Hey!  What's up?"</item>
+        <item>Yo.  Nothing much.</item>
+        <item>Did you get the answer to #2?</item>
+        <item>Nope.  Gave up.</item>
+        <item>">:( You were my last hope!"</item>
+    </string-array>
+
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="splash_desc">Splash page image</string>
+
+    <color name="splash_background">#000000</color>
+
+    <string name="title_activity_chat">ChatActivity</string>
+    <string name="compose_msg">COMPOSE A MESSAGE!</string>
+    <string name="title_activity_contact">ContactActivity</string>
+    <string name="contact_data">Contact person!</string>
+    <string name="send_btn_text">SEND</string>
+    <string name="refresh_option">Refresh</string>
+
+    <color name="white">#FFFFFF</color>
+
+</resources>
